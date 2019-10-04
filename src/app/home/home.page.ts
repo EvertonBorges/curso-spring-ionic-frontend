@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
+import { CredenciaisDTO } from 'src/models/credenciais.dto';
+import { Routes, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,16 +10,24 @@ import { MenuController } from '@ionic/angular';
 })
 export class HomePage {
 
-  constructor(private menu: MenuController) {}
+  creds: CredenciaisDTO = {
+    email: "",
+    senha: ""
+  };
+
+  constructor(private menu: MenuController, private router: Router) {}
 
   ionViewWillEnter(){
     this.menu.swipeGesture(false);
-    //this.menu.swipeEnable(false);
   }
 
   ionViewWillLeave(){
-    //this.menu.swipeEnable(true);
     this.menu.swipeGesture(true);
+  }
+
+  login() {
+    console.log(this.creds);
+    this.router.navigate(['/categorias', this.creds]);
   }
 
 }

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class CategoriaService {
 
     constructor (private http: HttpClient){
-
+        
     }
 
     findAll() : Observable<CategoriaDTO[]> {

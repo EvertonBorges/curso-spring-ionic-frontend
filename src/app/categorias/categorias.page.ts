@@ -21,11 +21,10 @@ export class CategoriasPage implements OnInit {
 
   ionViewDidEnter(){
     this.categoriaService.findAll().subscribe(response => {
-      this.items = response;
-    },
-    error => {
-      console.log(error);
-    });
+        this.items = response;
+      },
+      error => {}
+    );
   }
 
 }

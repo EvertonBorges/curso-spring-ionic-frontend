@@ -3,6 +3,7 @@ import { MenuController, NavController } from '@ionic/angular';
 import { CredenciaisDTO } from 'src/models/credenciais.dto';
 import { Routes, Route, Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
+import { StorageService } from 'src/services/storage.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,8 @@ export class HomePage {
   constructor(
     private menu: MenuController, 
     private router: Router,
-    private auth: AuthService) {}
+    private auth: AuthService,
+    private storage: StorageService) {}
 
   ionViewWillEnter(){
     this.menu.swipeGesture(false);
@@ -30,15 +32,17 @@ export class HomePage {
   }
 
   ionViewDidEnter(){
-    this.auth.refreshToken().subscribe(
-      response => {
-        this.auth.successfulLogin(response.headers.get('Authorization'));
-        this.router.navigate(['/categorias']);
-      },
-      error => {
-
-      }
-    );
+    if (this.storage.getLocalUser()) {
+      this.auth.refreshToken().subscribe(
+        response => {
+          this.auth.successfulLogin(response.headers.get('Authorization'));
+          this.router.navigate(['/categorias']);
+        },
+        error => {
+  
+        }
+      );
+    }
   }
 
   login() {

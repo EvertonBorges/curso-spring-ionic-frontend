@@ -5,13 +5,19 @@ import { API_CONFIG } from 'src/app/config/api.config';
 import { LocalUser } from 'src/models/local_user';
 import { StorageService } from './storage.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
     jwtHelper: JwtHelperService = new JwtHelperService();
 
-    constructor (public http: HttpClient, public storage: StorageService) {
+    constructor (
+        public http: HttpClient, 
+        public storage: StorageService, 
+        private menu: MenuController,
+        private router: Router) {
 
     }
 
@@ -47,7 +53,9 @@ export class AuthService {
     }
 
     logout(){
+        this.menu.swipeGesture(false);
         this.storage.setLocalUser(null);
+        this.router.navigate(['/home']);
     }
 
 }

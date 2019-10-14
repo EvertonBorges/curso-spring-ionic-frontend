@@ -4,6 +4,9 @@ import { CidadeService } from 'src/services/domain/cidade.service';
 import { EstadoService } from 'src/services/domain/estado.service';
 import { EstadoDTO } from 'src/models/estado.dto';
 import { CidadeDTO } from 'src/models/cidade.dto';
+import { ClienteService } from 'src/services/domain/cliente.service';
+import { AlertController } from '@ionic/angular';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +22,10 @@ export class SignupPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public cidadeService: CidadeService,
-    public estadoService: EstadoService) { 
+    public estadoService: EstadoService,
+    public clienteService: ClienteService,
+    public alertCtrl: AlertController,
+    public location: Location) { 
     this.formGroup = this.formBuilder.group({
       nome: ['Joaquim', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
       email: ['joaguim@gmail.com', [Validators.required, Validators.email]],
@@ -72,7 +78,33 @@ export class SignupPage implements OnInit {
   }
 
   signupUser() {
-    console.log("Enviou o formulário");
+    let cliente = this.formGroup.value;
+    this.clienteService.insert(cliente).subscribe(
+      response => {
+        if (response) {
+          this.showInsertOk();
+        }
+      }, error => {
+
+      }
+    );
+  }
+
+  async showInsertOk(){
+    let alert = await this.alertCtrl.create({
+      header: 'Sucesso!',
+      message: 'Cadastro efetuado com sucesso',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.location.back();
+          }
+        }
+      ]
+    })
+    await alert.present();
   }
 
 }

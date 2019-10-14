@@ -28,8 +28,8 @@ export class CategoriasPage implements OnInit {
     );
   }
 
-  showProdutos() {
-    this.router.navigate(['/produtos']);
+  showProdutos(categoriaId: string) {
+    this.router.navigate(['/produtos', {categoriaId: categoriaId}]);
   }
 
 }

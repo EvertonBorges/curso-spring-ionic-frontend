@@ -55,7 +55,10 @@ export class HomePage {
 
       }
     );
-    
+  }
+
+  signup() {
+    this.router.navigate(['/signup']);
   }
 
 }

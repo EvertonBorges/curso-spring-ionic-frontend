@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { API_CONFIG } from '../config/api.config';
 
 @Component({
@@ -15,7 +15,8 @@ export class ProdutosPage implements OnInit {
 
   constructor(
     public produtoService: ProdutoService,
-    public activatedRoute: ActivatedRoute) { }
+    public activatedRoute: ActivatedRoute, 
+    public router: Router) { }
 
   ngOnInit() {
   }
@@ -44,6 +45,10 @@ export class ProdutosPage implements OnInit {
         }
       );
     }
+  }
+
+  showDetail() {
+    this.router.navigate(['/produto-detail']);
   }
 
 }

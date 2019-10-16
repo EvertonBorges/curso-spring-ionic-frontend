@@ -1,13 +1,18 @@
 <ion-header>
   <ion-toolbar>
+    <ion-title>Categorias</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Categorias</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-fab vertical="top" horizontal="end" slot="fixed" edge="true">
+    <ion-fab-button [routerLink]="['/cart']" size="small">
+      <ion-icon name="cart"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <ion-list lines="full">
     <ion-item *ngFor="let item of items" button (click)="showProdutos(item.id)">
         <ion-thumbnail slot="start">

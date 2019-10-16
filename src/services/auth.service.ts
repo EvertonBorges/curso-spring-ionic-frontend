@@ -20,7 +20,7 @@ export class AuthService {
         private menu: MenuController,
         private router: Router,
         public cartService: CartService) {
-
+        
     }
 
     authenticate(creds: CredenciaisDTO) {

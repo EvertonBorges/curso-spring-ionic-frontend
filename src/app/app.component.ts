@@ -21,6 +21,11 @@ export class AppComponent {
       title: 'Categorias',
       url: '/categorias',
       icon: 'bookmark'
+    },
+    {
+      title: 'Carrinho',
+      url: '/cart',
+      icon: 'cart'
     }
   ];
 

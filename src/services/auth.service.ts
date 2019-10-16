@@ -7,6 +7,7 @@ import { StorageService } from './storage.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { CartService } from './domain/cart.service';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,8 @@ export class AuthService {
         public http: HttpClient, 
         public storage: StorageService, 
         private menu: MenuController,
-        private router: Router) {
+        private router: Router,
+        public cartService: CartService) {
 
     }
 
@@ -50,6 +52,7 @@ export class AuthService {
             email: this.jwtHelper.decodeToken(tok).sub
         };
         this.storage.setLocalUser(user);
+        this.cartService.createOrClearCart();
     }
 
     logout(){

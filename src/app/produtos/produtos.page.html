@@ -9,7 +9,7 @@
 
 <ion-content class="ion-padding">
   <ion-list lines="full">
-    <ion-item *ngFor="let item of items" button (click)="showDetail()">
+    <ion-item *ngFor="let item of items" button (click)="showDetail(item.id)">
       <ion-thumbnail slot="start">
         <img [src]="item.imageUrl || 'assets/imgs/prod.jpg'">
       </ion-thumbnail>

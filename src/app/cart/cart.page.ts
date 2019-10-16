@@ -63,4 +63,8 @@ export class CartPage implements OnInit {
     this.router.navigate(['/categorias']);
   }
 
+  checkout() {
+    this.router.navigate(['/pick-address']);
+  }
+
 }

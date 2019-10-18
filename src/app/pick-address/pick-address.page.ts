@@ -61,7 +61,11 @@ export class PickAddressPage implements OnInit {
 
   nextPage(endereco: EnderecoDTO) {
     this.pedido.enderecoDeEntrega = { id: endereco.id };
-    console.log(this.pedido);
+    this.router.navigateByUrl('/payment', {
+      state: { 
+        pedido: this.pedido 
+      } 
+    });
   }
 
 }

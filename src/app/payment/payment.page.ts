@@ -15,8 +15,8 @@ export class PaymentPage implements OnInit {
   formGroup: FormGroup;
 
   constructor(
-    formBuilder: FormBuilder,
-    router: Router) {
+    public formBuilder: FormBuilder,
+    public router: Router) {
     this.pedido = router.getCurrentNavigation().extras.state.pedido;
 
     this.formGroup = formBuilder.group({
@@ -33,7 +33,11 @@ export class PaymentPage implements OnInit {
     if (this.pedido.pagamento["@type"] == "pagamentoComBoleto") {
       this.pedido.pagamento.numeroDeParcelas = 1;
     }
-    console.log(this.pedido);
+    this.router.navigateByUrl('/order-confirmation', {
+      state: {
+        pedido: this.pedido
+      }
+    });
   }
 
 }

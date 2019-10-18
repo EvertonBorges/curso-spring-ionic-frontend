@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { OrderConfirmationPage } from './order-confirmation.page';
+import { PedidoService } from 'src/services/domain/pedido.service';
 
 const routes: Routes = [
   {
@@ -22,6 +23,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [OrderConfirmationPage]
+  declarations: [OrderConfirmationPage],
+  providers: [
+    PedidoService
+  ]
 })
 export class OrderConfirmationPageModule {}

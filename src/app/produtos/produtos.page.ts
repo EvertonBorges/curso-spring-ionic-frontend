@@ -24,6 +24,10 @@ export class ProdutosPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.loadData();
+  }
+
+  loadData() {
     let categoriaId = this.activatedRoute.snapshot.paramMap.get("categoriaId");
 
     let loader = this.presentLoading();
@@ -66,6 +70,13 @@ export class ProdutosPage implements OnInit {
     await loader.present();
 
     return loader;
+  }
+
+  doRefresh(event) {
+    this.loadData();
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
   }
 
 }

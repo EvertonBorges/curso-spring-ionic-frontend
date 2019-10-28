@@ -3,6 +3,7 @@ import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { API_CONFIG } from '../config/api.config';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-produtos',
@@ -16,7 +17,8 @@ export class ProdutosPage implements OnInit {
   constructor(
     public produtoService: ProdutoService,
     public activatedRoute: ActivatedRoute, 
-    public router: Router) { }
+    public router: Router,
+    public loadingController: LoadingController) { }
 
   ngOnInit() {
   }
@@ -24,12 +26,17 @@ export class ProdutosPage implements OnInit {
   ionViewDidEnter() {
     let categoriaId = this.activatedRoute.snapshot.paramMap.get("categoriaId");
 
+    let loader = this.presentLoading();
     this.produtoService.findByCategoria(categoriaId).subscribe(
       response => {
         this.items = response['content'];
         this.loadImageUrls();
       }, error => {
 
+      }, () => {
+        loader.then(l => {
+          l.dismiss();
+        });
       }
     );
   }
@@ -49,6 +56,16 @@ export class ProdutosPage implements OnInit {
 
   showDetail(produtoId: string) {
     this.router.navigate(['/produto-detail', {produtoId: produtoId}]);
+  }
+
+  async presentLoading(): Promise<HTMLIonLoadingElement> {
+    const loader = await this.loadingController.create({
+      message: 'Aguarde...',
+      backdropDismiss: false
+    });
+    await loader.present();
+
+    return loader;
   }
 
 }

@@ -12,7 +12,8 @@ import { LoadingController } from '@ionic/angular';
 })
 export class ProdutosPage implements OnInit {
 
-  items: ProdutoDTO[];
+  items: ProdutoDTO[] = [];
+  page: number = 0;
 
   constructor(
     public produtoService: ProdutoService,
@@ -24,17 +25,22 @@ export class ProdutosPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.loadData();
+    this.loadDados();
   }
 
-  loadData() {
+  loadDados() {
     let categoriaId = this.activatedRoute.snapshot.paramMap.get("categoriaId");
 
     let loader = this.presentLoading();
-    this.produtoService.findByCategoria(categoriaId).subscribe(
+    this.produtoService.findByCategoria(categoriaId, this.page, 10).subscribe(
       response => {
-        this.items = response['content'];
-        this.loadImageUrls();
+        let start = this.items.length;
+        this.items = this.items.concat(response['content']);
+        let end = this.items.length;
+        if (start == end) {
+          this.page--;
+        }
+        this.loadImageUrls(start, end);
       }, error => {
 
       }, () => {
@@ -45,8 +51,8 @@ export class ProdutosPage implements OnInit {
     );
   }
 
-  loadImageUrls() {
-    for (var i = 0; i < this.items.length; i++) {
+  loadImageUrls(start: number, end: number) {
+    for (var i = start; i < end; i++) {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.id).subscribe(
         response => {
@@ -73,7 +79,19 @@ export class ProdutosPage implements OnInit {
   }
 
   doRefresh(event) {
-    this.loadData();
+    this.items = [];
+    this.page = 0;
+    this.loadDados();
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+  }
+
+  loadData(event) {
+    this.page++;
+    this.loadDados();
+
     setTimeout(() => {
       event.target.complete();
     }, 1000);

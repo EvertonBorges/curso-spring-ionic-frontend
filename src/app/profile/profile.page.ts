@@ -4,6 +4,7 @@ import { ClienteDTO } from 'src/models/cliente.dto';
 import { ClienteService } from 'src/services/domain/cliente.service';
 import { API_CONFIG } from '../config/api.config';
 import { Router } from '@angular/router';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -13,11 +14,14 @@ import { Router } from '@angular/router';
 export class ProfilePage implements OnInit {
 
   cliente: ClienteDTO;
+  picture: string;
+  cameraOn: boolean = false;
 
   constructor(
     public storage: StorageService,
     public clienteService: ClienteService,
-    public router: Router) { }
+    public router: Router,
+    private camera: Camera) { }
 
   ngOnInit() {
   }
@@ -51,6 +55,21 @@ export class ProfilePage implements OnInit {
 
         }
       )
+  }
+
+  getCameraPicture() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.picture = 'data:image/png;base64,' + imageData;
+     }, (err) => {
+       
+     });
   }
 
 }

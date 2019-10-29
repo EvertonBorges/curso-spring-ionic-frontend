@@ -27,6 +27,10 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.loadData();
+  }
+
+  private loadData() {
     let localUser = this.storage.getLocalUser();
     if (localUser && localUser.email) {
       this.clienteService.findByEmail(localUser.email).subscribe(
@@ -58,6 +62,9 @@ export class ProfilePage implements OnInit {
   }
 
   getCameraPicture() {
+    
+    this.cameraOn = true;
+
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -67,9 +74,25 @@ export class ProfilePage implements OnInit {
 
     this.camera.getPicture(options).then((imageData) => {
       this.picture = 'data:image/png;base64,' + imageData;
+      this.cameraOn = false;
      }, (err) => {
        
      });
+  }
+
+  sendPicture() {
+    this.clienteService.uploadPicture(this.picture).subscribe(
+      response => {
+        this.picture = null;
+        this.loadData();
+      }, error => {
+
+      }
+    );
+  }
+
+  cancel() {
+    this.picture = null;
   }
 
 }
